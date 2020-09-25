@@ -13,7 +13,7 @@ namespace UdemyIdentityServer.API1.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        [Authorize]
+        [Authorize(Policy = "ReadProduct")]
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -26,6 +26,18 @@ namespace UdemyIdentityServer.API1.Controllers
             };
 
             return Ok(productList);
+        }
+
+        [Authorize(Policy = "UpdateOrCreate")]
+        public IActionResult UpdateProduct(int id)
+        {
+            return Ok($"id'si {id} olan product güncellenmiştir");
+        }
+
+        [Authorize(Policy = "UpdateOrCreate")]
+        public IActionResult CreateProduct(Product product)
+        {
+            return Ok(product);
         }
     }
 }
