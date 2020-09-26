@@ -7,6 +7,7 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using UdemyIdentityServer.Client1.Models;
 
 namespace UdemyIdentityServer.Client1.Controllers
 {
@@ -21,6 +22,7 @@ namespace UdemyIdentityServer.Client1.Controllers
 
         public async Task<IActionResult> Index()
         {
+            List<Product> products = new List<Product>();
             HttpClient httpClient = new HttpClient();
 
             var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
@@ -51,13 +53,15 @@ namespace UdemyIdentityServer.Client1.Controllers
             if (response.IsSuccessStatusCode)
             {
                 var content = await response.Content.ReadAsStringAsync();
+
+                products = JsonConvert.DeserializeObject<List<Product>>(content);
             }
             else
             {
                 //loglama yap
             }
 
-            return View();
+            return View(products);
         }
     }
 }

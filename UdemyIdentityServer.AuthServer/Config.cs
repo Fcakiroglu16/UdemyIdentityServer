@@ -1,7 +1,9 @@
 ﻿using IdentityServer4.Models;
+using IdentityServer4.Test;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace UdemyIdentityServer.AuthServer
@@ -35,6 +37,26 @@ namespace UdemyIdentityServer.AuthServer
                        new ApiScope("api2.read","API 2 için okuma izni"),
                   new ApiScope("api2.write","API 2 için yazma izni"),
                     new ApiScope("api2.update","API 2 için güncelleme izni"),
+            };
+        }
+
+        public static IEnumerable<IdentityResource> GetIdentityResources()
+        {
+            return new List<IdentityResource>()
+            {
+                new IdentityResources.OpenId(), //subId
+                new IdentityResources.Profile(), ///
+            };
+        }
+
+        public static IEnumerable<TestUser> GetUsers()
+        {
+            return new List<TestUser>()
+            {
+                new TestUser{ SubjectId="1",Username="fcakiroglu16",  Password="password",Claims= new List<Claim>(){new Claim("given_name","Fatih"), new Claim("family_name","Çakıroğlu")      } },
+                 new TestUser{ SubjectId="2",Username="ahmet16",  Password="password",Claims= new List<Claim>(){
+                new Claim("given_name","Ahmet"),
+                new Claim("family_name","Çakıroğlu")      } }
             };
         }
 
