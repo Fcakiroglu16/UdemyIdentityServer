@@ -36,6 +36,7 @@ namespace UdemyIdentityServer.Client1
                 opts.ResponseType = "code id_token";
                 opts.GetClaimsFromUserInfoEndpoint = true;
                 opts.SaveTokens = true;
+                opts.Scope.Add("api1.read");
             });
 
             services.AddControllersWithViews();
