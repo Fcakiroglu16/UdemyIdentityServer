@@ -83,10 +83,11 @@ namespace UdemyIdentityServer.AuthServer
                  new Client()
                  {
                      ClientId = "Client1-Mvc",
+                     RequirePkce=false,
                     ClientName="Client 1 app  mvc uygulaması",
                    ClientSecrets=new[] {new Secret("secret".Sha256())},
                    AllowedGrantTypes= GrantTypes.Hybrid,
-                   RedirectUris=new  List<string>{ "https://localhost:5006/sign-oidc" },
+                   RedirectUris=new  List<string>{ "https://localhost:5006/signin-oidc" },
                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile}
                  }
             };
