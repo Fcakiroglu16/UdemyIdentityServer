@@ -28,7 +28,10 @@ namespace UdemyIdentityServer.Client1
             {
                 opts.DefaultScheme = "Cookies";
                 opts.DefaultChallengeScheme = "oidc";
-            }).AddCookie("Cookies").AddOpenIdConnect("oidc", opts =>
+            }).AddCookie("Cookies", opts =>
+            {
+                opts.AccessDeniedPath = "/Home/AccessDenied";
+            }).AddOpenIdConnect("oidc", opts =>
             {
                 opts.SignInScheme = "Cookies";
                 opts.Authority = "https://localhost:5001";
