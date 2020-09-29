@@ -4,13 +4,17 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Newtonsoft.Json;
 using UdemyIdentityServer.Client1.Models;
 
 namespace UdemyIdentityServer.Client1.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly IConfiguration _configuration;
@@ -25,28 +29,11 @@ namespace UdemyIdentityServer.Client1.Controllers
             List<Product> products = new List<Product>();
             HttpClient httpClient = new HttpClient();
 
-            var disco = await httpClient.GetDiscoveryDocumentAsync("https://localhost:5001");
+            var accessToken = await HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
 
-            if (disco.IsError)
-            {
-                //loglama yap
-            }
-
-            ClientCredentialsTokenRequest clientCredentialsTokenRequest = new ClientCredentialsTokenRequest();
-
-            clientCredentialsTokenRequest.ClientId = _configuration["Client:ClientId"];
-            clientCredentialsTokenRequest.ClientSecret = _configuration["Client:ClientSecret"];
-            clientCredentialsTokenRequest.Address = disco.TokenEndpoint;
-
-            var token = await httpClient.RequestClientCredentialsTokenAsync(clientCredentialsTokenRequest);
-
-            if (token.IsError)
-            {
-                //loglama yap
-            }
             //https://localhost:5006
 
-            httpClient.SetBearerToken(token.AccessToken);
+            httpClient.SetBearerToken(accessToken);
 
             var response = await httpClient.GetAsync("https://localhost:5016/api/products/getproducts");
 
