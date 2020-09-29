@@ -47,7 +47,9 @@ namespace UdemyIdentityServer.AuthServer
             {
                 new IdentityResources.OpenId(), //subId
                 new IdentityResources.Profile(), ///
-                new IdentityResource(){ Name="CountryAndCity", DisplayName="Country and City",Description="Kullanıcının ülke ve şehir bilgisi", UserClaims= new [] {"country","city"}}
+                new IdentityResource(){ Name="CountryAndCity", DisplayName="Country and City",Description="Kullanıcının ülke ve şehir bilgisi", UserClaims= new [] {"country","city"}},
+
+                new IdentityResource(){ Name="Roles",DisplayName="Roles", Description="Kullanıcı rolleri", UserClaims=new [] { "role"} }
             };
         }
 
@@ -60,12 +62,15 @@ namespace UdemyIdentityServer.AuthServer
                     new Claim("family_name","Çakıroğlu"),
                    new Claim("country","Türkiye"),
                       new Claim("city","Ankara"),
+                      new Claim("role","admin")
                 } },
                  new TestUser{ SubjectId="2",Username="ahmet16",  Password="password",Claims= new List<Claim>(){
                 new Claim("given_name","Ahmet"),
                 new Claim("family_name","Çakıroğlu"),
                   new Claim("country","Türkiye"),
-                      new Claim("city","İstanbul"),} }
+                      new Claim("city","İstanbul"),
+                    new Claim("role","customer")
+                 } }
             };
         }
 
@@ -97,7 +102,7 @@ namespace UdemyIdentityServer.AuthServer
                    AllowedGrantTypes= GrantTypes.Hybrid,
                    RedirectUris=new  List<string>{ "https://localhost:5006/signin-oidc" },
                    PostLogoutRedirectUris=new List<string>{ "https://localhost:5006/signout-callback-oidc" },
-                   AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "api1.read",IdentityServerConstants.StandardScopes.OfflineAccess,"CountryAndCity"},
+                   AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "api1.read",IdentityServerConstants.StandardScopes.OfflineAccess,"CountryAndCity","Roles"},
                    AccessTokenLifetime=2*60*60,
                    AllowOfflineAccess=true,
                    RefreshTokenUsage=TokenUsage.ReUse,
