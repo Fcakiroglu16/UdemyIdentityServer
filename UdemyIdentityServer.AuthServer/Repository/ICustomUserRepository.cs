@@ -6,7 +6,7 @@ using UdemyIdentityServer.AuthServer.Models;
 
 namespace UdemyIdentityServer.AuthServer.Repository
 {
-    internal interface ICustomUserRepository
+    public interface ICustomUserRepository
     {
         Task<bool> Validate(string email, string password);
 
