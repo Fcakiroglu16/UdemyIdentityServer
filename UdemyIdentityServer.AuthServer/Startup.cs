@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using UdemyIdentityServer.AuthServer.Models;
 
 namespace UdemyIdentityServer.AuthServer
 {
@@ -23,6 +25,11 @@ namespace UdemyIdentityServer.AuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<CustomDbContext>(option =>
+            {
+                option.UseSqlServer(Configuration.GetConnectionString("LocalDb"));
+            });
+
             services.AddIdentityServer()
                 .AddInMemoryApiResources(Config.GetApiResources())
                 .AddInMemoryApiScopes(Config.GetApiScopes())
