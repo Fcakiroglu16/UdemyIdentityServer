@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UdemyIdentityServer.AuthServer.Models;
 
-namespace UdemyIdentityServer.AuthServer.Services
+namespace UdemyIdentityServer.AuthServer.Repository
 {
     internal interface ICustomUserRepository
     {
