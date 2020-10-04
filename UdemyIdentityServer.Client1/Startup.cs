@@ -48,13 +48,15 @@ namespace UdemyIdentityServer.Client1
                 opts.Scope.Add("offline_access");
                 opts.Scope.Add("CountryAndCity");
                 opts.Scope.Add("Roles");
+                opts.Scope.Add("email");
                 opts.ClaimActions.MapUniqueJsonKey("country", "country");
                 opts.ClaimActions.MapUniqueJsonKey("city", "city");
                 opts.ClaimActions.MapUniqueJsonKey("role", "role");
 
                 opts.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
                 {
-                    RoleClaimType = "role"
+                    RoleClaimType = "role",
+                    NameClaimType = "name"
                 };
             });
 

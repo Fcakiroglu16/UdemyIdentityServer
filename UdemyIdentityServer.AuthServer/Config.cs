@@ -45,6 +45,7 @@ namespace UdemyIdentityServer.AuthServer
         {
             return new List<IdentityResource>()
             {
+                new IdentityResources.Email(),
                 new IdentityResources.OpenId(), //subId
                 new IdentityResources.Profile(), ///
                 new IdentityResource(){ Name="CountryAndCity", DisplayName="Country and City",Description="Kullanıcının ülke ve şehir bilgisi", UserClaims= new [] {"country","city"}},
@@ -102,7 +103,7 @@ namespace UdemyIdentityServer.AuthServer
                    AllowedGrantTypes= GrantTypes.Hybrid,
                    RedirectUris=new  List<string>{ "https://localhost:5006/signin-oidc" },
                    PostLogoutRedirectUris=new List<string>{ "https://localhost:5006/signout-callback-oidc" },
-                   AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "api1.read",IdentityServerConstants.StandardScopes.OfflineAccess,"CountryAndCity","Roles"},
+                   AllowedScopes = { IdentityServerConstants.StandardScopes.Email, IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "api1.read",IdentityServerConstants.StandardScopes.OfflineAccess,"CountryAndCity","Roles"},
                    AccessTokenLifetime=2*60*60,
                    AllowOfflineAccess=true,
                    RefreshTokenUsage=TokenUsage.ReUse,
