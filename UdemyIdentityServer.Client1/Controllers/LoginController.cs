@@ -87,5 +87,16 @@ namespace UdemyIdentityServer.Client1.Controllers
 
             return RedirectToAction("Index", "User");
         }
+
+        public IActionResult SignUp()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SignUp(UserSaveViewModel userSaveViewModel)
+        {
+            return RedirectToAction("Index");
+        }
     }
 }
