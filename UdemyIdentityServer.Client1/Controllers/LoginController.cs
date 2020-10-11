@@ -12,16 +12,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using UdemyIdentityServer.Client1.Models;
+using UdemyIdentityServer.Client1.Services;
 
 namespace UdemyIdentityServer.Client1.Controllers
 {
     public class LoginController : Controller
     {
         private IConfiguration _configuration;
+        private readonly IApiResourceHttpClient _apiResourceHttpClient;
 
-        public LoginController(IConfiguration configuration)
+        public LoginController(IConfiguration configuration, IApiResourceHttpClient apiResourceHttpClient)
         {
             _configuration = configuration;
+            _apiResourceHttpClient = apiResourceHttpClient;
         }
 
         public IActionResult Index()
@@ -96,6 +99,19 @@ namespace UdemyIdentityServer.Client1.Controllers
         [HttpPost]
         public async Task<IActionResult> SignUp(UserSaveViewModel userSaveViewModel)
         {
+            if (!ModelState.IsValid) return View();
+
+            var result = await _apiResourceHttpClient.SaveUserViewModel(userSaveViewModel);
+
+            if (result != null)
+            {
+                result.ForEach(error =>
+                {
+                    ModelState.AddModelError("", error);
+                });
+                return View();
+            };
+
             return RedirectToAction("Index");
         }
     }
