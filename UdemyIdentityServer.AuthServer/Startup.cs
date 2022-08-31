@@ -28,6 +28,7 @@ namespace UdemyIdentityServer.AuthServer
                 .AddInMemoryApiScopes(Config.GetApiScopes())
                 .AddInMemoryClients(Config.GetClients())
                 .AddDeveloperSigningCredential();
+                
 
             services.AddControllersWithViews();
         }
