@@ -36,17 +36,16 @@ namespace UdemyIdentityServer.AuthServer
                   out _
               );
 
+            
+             
 
 
-
-              services.AddIdentityServer()
+            services.AddIdentityServer()
                   .AddInMemoryApiResources(Config.GetApiResources())
                   .AddInMemoryApiScopes(Config.GetApiScopes())
                   .AddInMemoryClients(Config.GetClients())
-                  .AddSigningCredential(new SigningCredentials(
-                      new RsaSecurityKey(rsa),
-                      SecurityAlgorithms.RsaSha256 // Important to use RSA version of the SHA algo 
-                  ));
+                  .AddSigningCredential( new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256// Important to use RSA version of the SHA algo 
+                  );
                   
 
             services.AddControllersWithViews();
