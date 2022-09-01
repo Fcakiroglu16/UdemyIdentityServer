@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -25,28 +27,19 @@ namespace UdemyIdentityServer.AuthServer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-          var  rsa = RSA.Create();
-          
-              rsa.ImportRSAPrivateKey(
-              Convert.FromBase64String(Configuration["Jwt:Asymmetric:PrivateKey"]),
-              out _);
 
-              rsa.ImportRSAPublicKey(
-                  Convert.FromBase64String(Configuration["Jwt:Asymmetric:PublicKey"]),
-                  out _
-              );
+            var x509Certificate = new X509Certificate2(
+                @"C:\Users\f-cak\.aspnet\\https\certificate.pfx", "Password12*");
 
-            
-             
 
 
             services.AddIdentityServer()
-                  .AddInMemoryApiResources(Config.GetApiResources())
-                  .AddInMemoryApiScopes(Config.GetApiScopes())
-                  .AddInMemoryClients(Config.GetClients())
-                  .AddSigningCredential( new RsaSecurityKey(rsa), SecurityAlgorithms.RsaSha256// Important to use RSA version of the SHA algo 
-                  );
-                  
+                .AddInMemoryApiResources(Config.GetApiResources())
+                .AddInMemoryApiScopes(Config.GetApiScopes())
+                .AddInMemoryClients(Config.GetClients())
+                .AddSigningCredential(x509Certificate);
+
+
 
             services.AddControllersWithViews();
         }
