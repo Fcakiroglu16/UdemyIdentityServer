@@ -118,7 +118,7 @@ namespace UdemyIdentityServer.AuthServer
                      RequirePkce=false,
                     ClientName="Client 2 app  mvc uygulaması",
                    ClientSecrets=new[] {new Secret("secret".Sha256())},
-                   AllowedGrantTypes= GrantTypes.Hybrid,
+                   AllowedGrantTypes= GrantTypes.Code,
                    RedirectUris=new  List<string>{ "https://localhost:5011/signin-oidc" },
                    PostLogoutRedirectUris=new List<string>{ "https://localhost:5011/signout-callback-oidc" },
                    AllowedScopes = {IdentityServerConstants.StandardScopes.OpenId, IdentityServerConstants.StandardScopes.Profile, "api1.read","api2.read",IdentityServerConstants.StandardScopes.OfflineAccess,"CountryAndCity","Roles"},
